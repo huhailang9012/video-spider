@@ -1,23 +1,17 @@
 from adbutils import adb
+import repository as repo
 import time
-import storage as db
-
+import call as c
 # device
 ds = adb.device_list()
 d = ds[0]
-# pkg_path
-pkg_path = "C:/Users/huhai/Downloads/aweme_aweGW_v1015_130401_becf_1604488554.apk"
-# pkg_name
-pkg_name = "com.ss.android.ugc.aweme"
-# activity
-activity = ".main.MainActivity"
 # source directory
 src_dir = "/storage/sdcard0/DCIM/Camera/"
 # destination directory
-dest_dir = "E:/douyin/download/"
+dest_dir = "E:/docker_data/files/videos/"
 
 
-def install():
+def install(pkg_path: str = None):
     """
     Example:
         pkg_path: C:/Users/huhai/Downloads/aweme_aweGW_v1015_130401_becf_1604488554.apk
@@ -25,7 +19,7 @@ def install():
     d.install(pkg_path, True)
 
 
-def uninstall():
+def uninstall(pkg_name: str=None):
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
@@ -33,17 +27,16 @@ def uninstall():
     d.uninstall(pkg_name)
 
 
-def start():
+def start(pkg_name: str = 'com.ss.android.ugc.aweme', activity: str = '.main.MainActivity'):
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
         activity: .main.MainActivity
     """
-    # d.app_start(pkg_name, activity)
-    cmd = "adb shell am start -W -S " + "com.ss.android.ugc.aweme" + "/" + ".main.MainActivity"
+    d.app_start(pkg_name, activity)
 
 
-def stop():
+def stop(pkg_name: str = 'com.ss.android.ugc.aweme'):
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
@@ -104,12 +97,12 @@ def reset():
     d.click(270, 300)
 
 
-def input_text():
+def input_text(key: str = 'faded'):
     """
     Example:
         search key: faded
     """
-    d.send_keys("faded") # simulate: adb shell input text "hello%sworld\%\^\&\*
+    d.send_keys(key)
 
 
 def search():
@@ -140,22 +133,20 @@ def select_first():
     d.click(250, 400)
 
 
-def run():
+def execute(key: str = None):
 
-    start()
-    time.sleep(10)
     search()
     time.sleep(0.5)
-    input_text()
+    input_text(key)
     time.sleep(0.5)
     bingo()
     select_video()
     time.sleep(1)
     select_first()
     time.sleep(1)
-
+    n = 0
     try:
-        while True:
+        while n < 20:
             share()
             time.sleep(0.5)
             download()
@@ -166,15 +157,12 @@ def run():
             if len(files):
                 name, format, storage_path, size, src = pull()
                 d.remove(src)
-                print("remove file", src)
-                db.storage(name, format, storage_path, size)
-                time.sleep(5)
+                file_md5 = repo.storage(name, format, storage_path, size)
+                # c.notify(file_md5, storage_path)
+                time.sleep(3)
             else:
                 reset()
             swipe(200, 1000, 200, 500, 0.5)
+            n = n + 1
     except KeyboardInterrupt:
         adb.run('kill-server')
-
-
-if __name__ == "__main__":
-    run()

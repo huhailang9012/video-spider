@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    build:
+      context: docker/db
+      network: host
+    container_name: video-spider-db
+    environment:
+      - POSTGRES_DB=video_spider
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=123456
+    networks:
+      - db_network
+    ports:
+      - "5433:5432"
+  vs:
+    build:
+      context: .
+      network: host
+    container_name: video-spider-app
+    volumes:
+      - E:/docker_data/logs:/data/logs
+      - E:/docker_data/files:/data/files
+      - E:/docker_data/config:/data/config
+    depends_on:
+      - db
+    networks:
+      - db_network
+    ports:
+      - "8001:8000"
+networks:
+  db_network:
