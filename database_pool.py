@@ -1,5 +1,5 @@
 from psycopg2 import pool
-
+import psycopg2.extras
 
 class PostgreSql:
     def __init__(self):
@@ -14,8 +14,8 @@ class PostgreSql:
 
     def get_connect(self):
         conn = self.connectPool.getconn()
-        cursor = conn.cursor()
-        return conn, cursor
+        nt_cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+        return conn, nt_cur
 
     def close_connect(self, conn, cursor):
         cursor.close()
@@ -44,6 +44,13 @@ class PostgreSql:
     def select_all(self, sql):
         conn, cursor = self.get_connect()
         cursor.execute(sql)
+        result = cursor.fetchall()
+        self.close_connect(conn, cursor)
+        return result
+
+    def select_by_ids(self, sql, param):
+        conn, cursor = self.get_connect()
+        cursor.execute(sql, param)
         result = cursor.fetchall()
         self.close_connect(conn, cursor)
         return result

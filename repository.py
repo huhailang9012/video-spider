@@ -20,6 +20,19 @@ def count_by_md5(md5: str) -> int:
     return count
 
 
+def select_by_ids(video_ids: list):
+    """
+    select count(*) from audios
+    :return: record size
+    """
+    tupVar = tuple(video_ids)
+    # sql语句 建表
+    sql = """SELECT * FROM videos where id in %s;"""
+    db = PostgreSql()
+    result = db.select_by_ids(sql, (tupVar,))
+    return result
+
+
 def insert(id: str, name: str, format: str, md5: str, local_video_path: str, cloud_video_path: str,
            cloud_cover_path: str, size: int, date_created: str):
     sql = """INSERT INTO videos (id, name, format, md5, local_video_path, cloud_video_path, cloud_cover_path, size, date_created) 

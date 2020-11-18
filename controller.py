@@ -1,7 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 import spider as sp
 import threading
+from typing import List
 
+from repository import select_by_ids
 from thread import stop_thread, thread_pool, MyThread
 
 app = FastAPI()
@@ -21,20 +23,16 @@ def start(pkg_name: str, activity: str):
     return {"success": True, "code": 0, "msg": "ok"}
 
 
-@app.post("/app/run")
-async def run(key: str):
+@app.post("/app/execute")
+async def execute(key: str):
     print("key",key)
     if threading.activeCount() == 1:
-        print("当前活跃线程数为1")
         t = MyThread(key)
         t.start()
         thread_pool.append(t)
     elif threading.activeCount() == 2:
-        print("当前活跃线程数为2")
-        print(thread_pool[0].name)
         stop_thread(thread_pool[0])
         t = MyThread(key)
-        print(t.name)
         t.start()
         thread_pool.append(t)
     return {"success": True, "code": 0, "msg": "ok"}
@@ -45,3 +43,9 @@ def stop(pkg_name: str):
 
     sp.stop(pkg_name)
     return {"success": True, "code": 0, "msg": "ok"}
+
+
+@app.get("/video/batch/query")
+def batch_query(audio_ids: List[str] = Query(None)):
+    data = select_by_ids(audio_ids)
+    return {"success": True, "code": 0, "msg": "ok", "data": data}
