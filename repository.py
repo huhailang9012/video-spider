@@ -64,7 +64,7 @@ def storage(name: str, format: str, local_video_path: str, size: int) -> str:
     if count == 0:
         insert(id, name, format, file_md5, local_video_path, cloud_video_path, cloud_cloud_cover_path, size,
                now)
-    return file_md5
+    return id
 
 
 if __name__ == '__main__':

@@ -1,6 +1,7 @@
 from adbutils import adb
 import repository as repo
 import time
+import base64
 import call as c
 # device
 ds = adb.device_list()
@@ -102,7 +103,8 @@ def input_text(key: str = 'faded'):
     Example:
         search key: faded
     """
-    d.send_keys(key)
+    charsb64 = str(base64.b64encode(key.encode('utf-8')))[1:]
+    d.shell("am broadcast -a ADB_INPUT_B64 --es msg %s" % charsb64)
 
 
 def search():
@@ -157,8 +159,8 @@ def execute(key: str = None):
             if len(files):
                 name, format, storage_path, size, src = pull()
                 d.remove(src)
-                file_md5 = repo.storage(name, format, storage_path, size)
-                # c.notify(file_md5, storage_path)
+                id = repo.storage(name, format, storage_path, size)
+                c.notify(id, key, storage_path)
                 time.sleep(3)
             else:
                 reset()

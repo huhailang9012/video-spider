@@ -1,15 +1,11 @@
 import requests
-protocol = 'http'
-ip_addr = '127.0.0.1'
-port = '8002'
-uri = '/audio/extract'
 
 
-def notify(file_md5: str, storage_path: str) -> str:
+def notify(video_id: str, related_key: str, storage_path: str) -> str:
     """
     notify Audio-Extracting to extract audio
     """
-    url = protocol + ':' + '//' + ip_addr + ':' + port + uri
-    params = {'file_md5': file_md5, 'storage_path': storage_path}
+    url = 'http://127.0.0.1:8000/spider/callback'
+    params = {'video_id': video_id, 'related_key': related_key, 'storage_path': storage_path}
     r = requests.post(url, json=params)
     return r.text
