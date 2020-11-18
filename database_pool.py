@@ -14,7 +14,7 @@ class PostgreSql:
 
     def get_connect(self):
         conn = self.connectPool.getconn()
-        nt_cur = conn.cursor(cursor_factory=psycopg2.extras.NamedTupleCursor)
+        nt_cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         return conn, nt_cur
 
     def close_connect(self, conn, cursor):

@@ -4,7 +4,7 @@ from minio.error import (ResponseError, BucketAlreadyOwnedByYou,
                          BucketAlreadyExists)
 video_bucket = 'videos'
 image_bucket = 'images'
-endpoint = '10.161.203.250:9000'
+endpoint = '10.170.229.65:9000'
 
 # 使用endpoint、access key和secret key来初始化minioClient对象。
 minioClient = Minio(endpoint,
@@ -63,4 +63,4 @@ def fpush_image(object_name: str, file_path: str):
 
 
 if __name__ == "__main__":
-    print(fpush_image('1.jpg', 'E:/douyin/download/fdfd2.jpg'))
+    print(fpush_video('0b03f867d40d87d3ef191119874c1b4e.mp4', 'E:/docker_data/files/videos/0b03f867d40d87d3ef191119874c1b4e.mp4'))
