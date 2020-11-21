@@ -4,7 +4,7 @@ from minio.error import (ResponseError, BucketAlreadyOwnedByYou,
                          BucketAlreadyExists)
 video_bucket = 'videos'
 image_bucket = 'images'
-endpoint = '10.170.229.65:9000'
+endpoint = '127.0.0.1:9000'
 
 # 使用endpoint、access key和secret key来初始化minioClient对象。
 minioClient = Minio(endpoint,

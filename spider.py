@@ -9,7 +9,7 @@ d = ds[0]
 # source directory
 src_dir = "/storage/sdcard0/DCIM/Camera/"
 # destination directory
-dest_dir = "E:/docker_data/files/videos/"
+dest_dir = "/data/files/videos/"
 
 
 def install(pkg_path: str = None):
