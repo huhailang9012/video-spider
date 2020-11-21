@@ -4,12 +4,13 @@ import time
 import base64
 import call as c
 # device
+adb.connect('10.170.213.242:21503')
 ds = adb.device_list()
 d = ds[0]
 # source directory
 src_dir = "/storage/sdcard0/DCIM/Camera/"
 # destination directory
-dest_dir = "/data/files/videos/"
+dest_dir = "/docker_data/files/videos/"
 
 
 def install(pkg_path: str = None):
@@ -168,3 +169,7 @@ def execute(key: str = None):
             n = n + 1
     except KeyboardInterrupt:
         adb.run('kill-server')
+
+
+if __name__ =='__main__':
+    execute('faded')
