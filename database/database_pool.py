@@ -4,14 +4,13 @@ import psycopg2.extras
 class PostgreSql:
     def __init__(self):
         try:
-            self.connectPool = pool.SimpleConnectionPool(2, 10, host="127.0.0.1", port="5432",
+            self.connectPool = pool.SimpleConnectionPool(2, 10, host="ar.com", port="5432",
                                                          user="postgres", password="123456",
                                                          database="video_spider", keepalives=1,
                                                          keepalives_idle=30, keepalives_interval=10,
                                                          keepalives_count=5)
         except Exception as e:
             print(e)
-
     def get_connect(self):
         conn = self.connectPool.getconn()
         nt_cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)

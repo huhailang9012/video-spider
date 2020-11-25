@@ -1,14 +1,18 @@
 version: '3'
 services:
   vs:
+    image: spider:latest
     build:
       context: .
       network: host
-    container_name: video-spider
+    container_name: spider
     volumes:
       - .:/code
-      - /home/snail/Project/docker_data/logs:/data/logs
-      - /home/snail/Project/docker_data/files:/data/files
-      - /home/snail/Project/docker_data/config:/data/config
+#      - /home/snail/Project/docker_data/logs:/data/logs
+#      - /home/snail/Project/docker_data/files:/data/files
+#      - /home/snail/Project/docker_data/config:/data/config
+      - E:/docker_data/logs:/data/logs
+      - E:/docker_data/files:/data/files
+      - E:/docker_data/config:/data/config
     ports:
       - "8001:8000"

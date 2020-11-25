@@ -4,7 +4,7 @@ import ctypes
 
 from spider import execute
 
-thread_pool = []
+# thread_pool = []
 
 
 def _async_raise(tid, exctype):
@@ -23,7 +23,8 @@ def _async_raise(tid, exctype):
 
 
 def stop_thread(thread):
-    del thread_pool[0]
+    # del thread_pool[0]
+    print(thread.ident)
     _async_raise(thread.ident, SystemExit)
 
 

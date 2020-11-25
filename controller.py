@@ -3,11 +3,11 @@ import spider as sp
 import threading
 from typing import List
 import json
-from repository import select_by_ids
-from thread import stop_thread, thread_pool, MyThread
+from database.repository import select_by_ids
+from thread import stop_thread, MyThread
 
 app = FastAPI()
-
+semaphore = threading.BoundedSemaphore(2)
 
 @app.post("/app/install")
 def install(pkg_path: str = None):
@@ -23,18 +23,27 @@ def start(pkg_name: str, activity: str):
     return {"success": True, "code": 0, "msg": "ok"}
 
 
-@app.post("/app/execute")
+@app.post("/app/execute/{key}")
 async def execute(key: str):
-    print("key",key)
-    if threading.activeCount() == 1:
+
+    if threading.activeCount() > 1:
+        print('remove thread', threading.enumerate()[1].name)
+        stop_thread(threading.enumerate()[1])
+        # semaphore.release()
         t = MyThread(key)
         t.start()
-        thread_pool.append(t)
-    elif threading.activeCount() == 2:
-        stop_thread(thread_pool[0])
+        # thread_pool.append(t)
+    else:
         t = MyThread(key)
         t.start()
-        thread_pool.append(t)
+        # thread_pool.append(t)
+    print('main thread()',threading.main_thread())
+    print('active thread count',threading.activeCount())
+    print('active threads',threading.enumerate())
+    # print('total sub thread',len(thread_pool))
+    # if len(thread_pool) > 0:
+    #     for i in thread_pool:
+    #         print(i.name)
     return {"success": True, "code": 0, "msg": "ok"}
 
 

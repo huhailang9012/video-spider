@@ -1,19 +1,23 @@
 from adbutils import adb
-import repository as repo
+from database import repository as repo
 import time
 import base64
 import call as c
 # device
-adb.connect('10.170.213.242:21503')
-ds = adb.device_list()
-d = ds[0]
+remote_addr = '10.170.213.242:21503'
+# remote_addr = '10.171.216.55:21503'
+adb.connect(remote_addr)
+# adb.server_kill()
 # source directory
 src_dir = "/storage/sdcard0/DCIM/Camera/"
 # destination directory
-dest_dir = "/docker_data/files/videos/"
+dest_dir = "/data/files/videos/"
 
 
 def install(pkg_path: str = None):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Example:
         pkg_path: C:/Users/huhai/Downloads/aweme_aweGW_v1015_130401_becf_1604488554.apk
@@ -22,6 +26,9 @@ def install(pkg_path: str = None):
 
 
 def uninstall(pkg_name: str=None):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
@@ -30,6 +37,9 @@ def uninstall(pkg_name: str=None):
 
 
 def start(pkg_name: str = 'com.ss.android.ugc.aweme', activity: str = '.main.MainActivity'):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
@@ -39,6 +49,9 @@ def start(pkg_name: str = 'com.ss.android.ugc.aweme', activity: str = '.main.Mai
 
 
 def stop(pkg_name: str = 'com.ss.android.ugc.aweme'):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Example:
         pkg_name: com.ss.android.ugc.aweme
@@ -47,6 +60,9 @@ def stop(pkg_name: str = 'com.ss.android.ugc.aweme'):
 
 
 def share():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     share click
     """
@@ -54,6 +70,9 @@ def share():
 
 
 def download():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     download click
     """
@@ -61,6 +80,9 @@ def download():
 
 
 def swipe(sx: int, sy: int, dx: int, dy: int, duration: float):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     swipe from start point to end point
 
@@ -76,6 +98,9 @@ def swipe(sx: int, sy: int, dx: int, dy: int, duration: float):
 
 
 def pull():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Pull file from device:src to local:dst
     Returns:
@@ -93,6 +118,9 @@ def pull():
 
 
 def reset():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     reset click
     """
@@ -100,15 +128,22 @@ def reset():
 
 
 def input_text(key: str = 'faded'):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     Example:
         search key: faded
     """
+    print('execute formally',key)
     charsb64 = str(base64.b64encode(key.encode('utf-8')))[1:]
     d.shell("am broadcast -a ADB_INPUT_B64 --es msg %s" % charsb64)
-
+    # d.send_keys(key)
 
 def search():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     search click
     """
@@ -116,6 +151,9 @@ def search():
 
 
 def bingo():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     select click
     """
@@ -123,6 +161,9 @@ def bingo():
 
 
 def select_video():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     select video click
     """
@@ -130,6 +171,9 @@ def select_video():
 
 
 def select_first():
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
     """
     select first video click
     """
@@ -137,21 +181,24 @@ def select_first():
 
 
 def execute(key: str = None):
+    adb.connect(remote_addr)
+    ds = adb.device_list()
+    d = ds[0]
 
     search()
-    time.sleep(0.5)
+    time.sleep(3)
     input_text(key)
-    time.sleep(0.5)
+    time.sleep(3)
     bingo()
     select_video()
-    time.sleep(1)
+    time.sleep(3)
     select_first()
-    time.sleep(1)
+    time.sleep(3)
     n = 0
     try:
         while n < 20:
             share()
-            time.sleep(0.5)
+            time.sleep(3)
             download()
             time.sleep(10)
             files = d.sync.list(src_dir)
@@ -172,4 +219,5 @@ def execute(key: str = None):
 
 
 if __name__ =='__main__':
-    execute('faded')
+    # search()
+    input_text('中国')

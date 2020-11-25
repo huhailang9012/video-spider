@@ -2,7 +2,7 @@ from datetime import datetime
 import uuid
 import hashlib
 
-from database_pool import PostgreSql
+from database.database_pool import PostgreSql
 from preprocessor import extract_cover
 from uploader import fpush_video, fpush_image
 from video import Video
