@@ -7,7 +7,6 @@ import call as c
 remote_addr = '10.170.213.242:21503'
 # remote_addr = '10.171.216.55:21503'
 adb.connect(remote_addr)
-# adb.server_kill()
 # source directory
 src_dir = "/storage/sdcard0/DCIM/Camera/"
 # destination directory
