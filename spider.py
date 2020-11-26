@@ -176,7 +176,7 @@ def select_first():
     """
     select first video click
     """
-    d.click(250, 400)
+    d.click(250, 600)
 
 
 def execute(key: str = None):
