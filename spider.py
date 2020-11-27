@@ -211,7 +211,7 @@ def execute(key: str = None):
                 time.sleep(3)
             else:
                 reset()
-            swipe(200, 1000, 200, 500, 0.5)
+            swipe(200, 1400, 200, 500, 0.5)
             n = n + 1
     except KeyboardInterrupt:
         adb.run('kill-server')
