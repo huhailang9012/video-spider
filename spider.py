@@ -65,7 +65,7 @@ def share():
     """
     share click
     """
-    d.click(980, 1500)
+    d.click(980, 1440)
 
 
 def download():
