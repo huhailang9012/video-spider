@@ -183,21 +183,22 @@ def execute(key: str = None):
     adb.connect(remote_addr)
     ds = adb.device_list()
     d = ds[0]
-
+    print('search......')
     search()
-    time.sleep(3)
+    time.sleep(2)
+    print('input......')
     input_text(key)
-    time.sleep(3)
+    time.sleep(2)
     bingo()
     select_video()
-    time.sleep(3)
+    time.sleep(2)
     select_first()
-    time.sleep(3)
+    time.sleep(2)
     n = 0
     try:
         while n < 20:
             share()
-            time.sleep(3)
+            time.sleep(2)
             download()
             time.sleep(10)
             files = d.sync.list(src_dir)
@@ -213,6 +214,7 @@ def execute(key: str = None):
                 reset()
             swipe(200, 1400, 200, 500, 0.5)
             n = n + 1
+            time.sleep(2)
     except KeyboardInterrupt:
         adb.run('kill-server')
 

@@ -7,6 +7,7 @@ from database.repository import select_by_ids
 from thread import stop_thread, MyThread
 
 app = FastAPI()
+semaphore = threading.BoundedSemaphore(2)
 
 @app.post("/app/install")
 def install(pkg_path: str = None):
