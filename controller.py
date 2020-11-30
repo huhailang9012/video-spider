@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Query
-import spider as sp
+from app import spider as sp
 import threading
 from typing import List
 import json
 from database.repository import select_by_ids
-from thread import stop_thread, MyThread
+from app.thread import stop_thread, MyThread
 
 app = FastAPI()
 semaphore = threading.BoundedSemaphore(2)

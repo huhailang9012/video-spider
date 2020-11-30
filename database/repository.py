@@ -3,9 +3,9 @@ import uuid
 import hashlib
 
 from database.database_pool import PostgreSql
-from preprocessor import extract_cover
-from uploader import fpush_video, fpush_image
-from video import Video
+from app.preprocessor import extract_cover
+from app.uploader import fpush_video, fpush_image
+from app.video import Video
 
 
 def count_by_md5(md5: str) -> int:

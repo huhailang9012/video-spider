@@ -2,7 +2,7 @@ import threading
 import inspect
 import ctypes
 
-from spider import execute
+from app.spider import execute
 
 # thread_pool = []
 

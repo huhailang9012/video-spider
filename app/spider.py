@@ -2,7 +2,10 @@ from adbutils import adb
 from database import repository as repo
 import time
 import base64
-import call as c
+from app import call as c
+import requests
+
+
 # device
 remote_addr = '10.170.213.242:21503'
 # remote_addr = '10.171.216.55:21503'
@@ -218,6 +221,15 @@ def execute(key: str = None):
     except KeyboardInterrupt:
         adb.run('kill-server')
 
+
+def notify(video_id: str, related_key: str, local_video_path: str) -> str:
+    """
+    notify Audio-Extracting to extract audio
+    """
+    url = 'http://management:8000/spider/callback'
+    payload = {'video_id': video_id, 'related_key': related_key, 'local_video_path': local_video_path}
+    r = requests.get(url, params=payload)
+    return r.text
 
 if __name__ =='__main__':
     # search()
